@@ -1,4 +1,4 @@
-﻿// UC5 - Update
+﻿// UC6 - Update
 Console.CursorVisible = false;
 
 Game g1 = new Game();
@@ -6,13 +6,18 @@ g1.Start();
 
 class Game
 {
+    public int EnemyLowestX;
+    public int EnemyDirection;
+    public int EnemyHighestX;
     public int EnemyCount;
     public List<Enemy> EnemyList;
     public bool GameOver = false;
     public Player p1;
     public Game()
     {
+        EnemyLowestX = int.MaxValue;
         EnemyCount = 40;
+        EnemyDirection = 1;
         CreatePlayer();
         EnemyList = new List<Enemy>();
         CreateEnemy();
@@ -67,8 +72,35 @@ class Game
                 DrawPlayerShot();
             }
             DrawPlayer();
+            MoveEnemy();
+            DrawEnemy();
             // Game.p1.Move();
             
+        }
+        
+    }
+    public void MoveEnemy()
+    {
+        int i = 0;
+        if(EnemyHighestX < 39 && EnemyLowestX > 1)
+        {
+            while (i < EnemyList.Count)
+            {
+                EnemyList[i].x = EnemyList[i].x + (1 * EnemyDirection);
+                i++;
+            }
+        }
+        else
+        {
+            EnemyDirection = -EnemyDirection;
+            EnemyHighestX = 0;
+            EnemyLowestX = int.MaxValue;
+            while (i < EnemyList.Count)
+            {
+                EnemyList[i].x = EnemyList[i].x + (1 * EnemyDirection);
+                EnemyList[i].y++;
+                i++;
+            }
         }
         
     }
@@ -99,6 +131,14 @@ class Game
         {
             Console.SetCursorPosition(EnemyList[i].x, EnemyList[i].y);
             Console.WriteLine("O");
+            if (EnemyList[i].x > EnemyHighestX) // Kan potentielt forbedres! 
+            {
+                EnemyHighestX = EnemyList[i].x;
+            }
+            if (EnemyList[i].x < EnemyLowestX)
+            {
+                EnemyLowestX = EnemyList[i].x;
+            }                
             i++;
         }
     }
