@@ -15,29 +15,47 @@ class Game
     }
     public void CreatePlayer()
     {
-        p1 = new Player(5,5);
+        p1 = new Player(20,20);
     }
     
     public void Start()
     {
         while (GameOver == false)
         {
-
+            RemovePlayerShots();
+            MovePlayerShots();
+            DrawPlayerShot();
             // Game.DrawMap();
             // Game.DrawEnemy();
             DrawPlayer();
             Console.ForegroundColor = ConsoleColor.Black;
             char input = Console.ReadKey().KeyChar;
             Console.ForegroundColor = ConsoleColor.White;
-            RemovePlayer();
-            p1.Move(input);
-            //Console.SetCursorPosition(p1.x+1, p1.y);
-            //Console.Write(" ");
+            if(input == 'a' || input == 'd')
+            {
+                RemovePlayer();
+                p1.Move(input);
+            }
+            else if(input == ' ')
+            {
+                p1.Shoot();
+                DrawPlayerShot();
+            }
             DrawPlayer();
             // Game.p1.Move();
             
         }
         
+    }
+    public void DrawPlayerShot()
+    {
+        int i = 0;
+        while(i < p1.shotlist.Count)
+        {
+            Console.SetCursorPosition(p1.shotlist[i].x, p1.shotlist[i].y);
+            Console.WriteLine("|");
+            i++;
+        }
     }
     public void RemovePlayer()
     {
@@ -48,6 +66,29 @@ class Game
     {
         Console.SetCursorPosition(p1.x, p1.y);
         Console.Write("^");
+    }
+    public void MovePlayerShots()
+    {
+        int i = 0;
+        while(i < p1.shotlist.Count)
+        {
+            p1.shotlist[i].y--;
+            if (p1.shotlist[i].y <= -1)
+            {
+                p1.shotlist.RemoveAt(i);
+            }
+            i++;
+        }
+    }
+    public void RemovePlayerShots()
+    {
+        int i = 0;
+        while(i < p1.shotlist.Count)
+        {
+            Console.SetCursorPosition(p1.shotlist[i].x, p1.shotlist[i].y);
+            Console.Write(" ");
+            i++;
+        }
     }
     /*
     Vi skal have:
@@ -78,9 +119,9 @@ class Player
         this.y = y;
         shotlist = new List<Shot>();
     }
-    public void shoot()
+    public void Shoot()
     {
-        shotlist.Add(new Shot(5, 5));
+        shotlist.Add(new Shot(x, y));
     }
     public void Move(char a)
     {
