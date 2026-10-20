@@ -1,4 +1,4 @@
-﻿// UC4
+﻿// UC4 - Update
 Console.CursorVisible = false;
 
 Game g1 = new Game();
@@ -7,11 +7,13 @@ g1.Start();
 
 class Game
 {
+    public int EnemyCount;
     public List<Enemy> EnemyList;
     public bool GameOver = false;
     public Player p1;
     public Game()
     {
+        EnemyCount = 40;
         CreatePlayer();
         EnemyList = new List<Enemy>();
         CreateEnemy();
@@ -24,7 +26,21 @@ class Game
     }
     public void CreateEnemy()
     {
-        EnemyList.Add(new Enemy(5,5));
+        int i = 1;
+        int xhen = 1;
+        int yned = 0;
+        while(i < EnemyCount+1)
+        {
+            EnemyList.Add(new Enemy(xhen+5, yned+5));
+            if(i % 10 == 0 && i != 0)
+            {
+                xhen = 0;
+                yned++;
+            }
+            i++;
+            xhen++;
+        }
+        
     }
     
     public void Start()
