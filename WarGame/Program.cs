@@ -1,9 +1,8 @@
-﻿// UC4 - Update
+﻿// UC5 - Update
 Console.CursorVisible = false;
 
 Game g1 = new Game();
 g1.Start();
-
 
 class Game
 {
@@ -19,6 +18,7 @@ class Game
         CreateEnemy();
         DrawPlayer();
         DrawEnemy();
+        DrawBoard();
     }
     public void CreatePlayer()
     {
@@ -32,7 +32,7 @@ class Game
         while(i < EnemyCount+1)
         {
             EnemyList.Add(new Enemy(xhen+5, yned+5));
-            if(i % 10 == 0 && i != 0)
+            if(i % 10 == 0)
             {
                 xhen = 0;
                 yned++;
@@ -125,6 +125,23 @@ class Game
             i++;
         }
     }
+    public void DrawBoard()
+    {
+        int i = 0;
+        while(i < 20)
+        {
+            Console.SetCursorPosition(0, i);
+            Console.Write("|");
+            i++;
+        }
+        i = 0;
+        while(i < 20)
+        {
+            Console.SetCursorPosition(40, i);
+            Console.Write("|");
+            i++;
+        }
+    }
     /*
     Vi skal have:
     - Game.Start();
@@ -160,11 +177,11 @@ class Player
     }
     public void Move(char a)
     {
-        if(a == 'a')
+        if(a == 'a' && x > 1)
         {
             x--;
         }
-        if (a == 'd')
+        if (a == 'd' && x < 39)
         {
             x++;
         }
