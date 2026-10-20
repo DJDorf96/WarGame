@@ -1,5 +1,5 @@
-﻿// UC2 Update
-
+﻿// UC4
+Console.CursorVisible = false;
 
 Game g1 = new Game();
 g1.Start();
@@ -7,15 +7,24 @@ g1.Start();
 
 class Game
 {
+    public List<Enemy> EnemyList;
     public bool GameOver = false;
     public Player p1;
     public Game()
     {
         CreatePlayer();
+        EnemyList = new List<Enemy>();
+        CreateEnemy();
+        DrawPlayer();
+        DrawEnemy();
     }
     public void CreatePlayer()
     {
         p1 = new Player(20,20);
+    }
+    public void CreateEnemy()
+    {
+        EnemyList.Add(new Enemy(5,5));
     }
     
     public void Start()
@@ -25,9 +34,9 @@ class Game
             RemovePlayerShots();
             MovePlayerShots();
             DrawPlayerShot();
+            DrawPlayer();
             // Game.DrawMap();
             // Game.DrawEnemy();
-            DrawPlayer();
             Console.ForegroundColor = ConsoleColor.Black;
             char input = Console.ReadKey().KeyChar;
             Console.ForegroundColor = ConsoleColor.White;
@@ -66,6 +75,16 @@ class Game
     {
         Console.SetCursorPosition(p1.x, p1.y);
         Console.Write("^");
+    }
+    public void DrawEnemy()
+    {
+        int i = 0;
+        while (i < EnemyList.Count)
+        {
+            Console.SetCursorPosition(EnemyList[i].x, EnemyList[i].y);
+            Console.WriteLine("O");
+            i++;
+        }
     }
     public void MovePlayerShots()
     {
@@ -138,7 +157,16 @@ class Player
 
 class Enemy
 {
-
+    public bool IsDead;
+    public int x;
+    public int y;
+    public Enemy(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+        IsDead = false;
+    }
+    
 }
 
 class Shot
