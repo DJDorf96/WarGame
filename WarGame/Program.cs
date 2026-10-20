@@ -1,4 +1,4 @@
-﻿// UC1
+﻿// UC2
 
 
 
@@ -13,12 +13,18 @@ class Game
 
 class Player
 {
+    public List<Shot> shotlist;
     public int x;
     public int y;
     public Player(int x, int y) //Contructor
     {
         this.x = x;
         this.y = y;
+        shotlist = new List<Shot>();
+    }
+    public void shoot()
+    {
+        shotlist.Add(new Shot(5, 5));
     }
 }
 
@@ -27,7 +33,13 @@ class Enemy
 
 }
 
-class Skud
+class Shot
 {
-
+    public int x;
+    public int y;
+    public Shot(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
 }
